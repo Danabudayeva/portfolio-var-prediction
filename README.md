@@ -1,7 +1,7 @@
 # ML-VaR: Forecasting Portfolio Tail Risk with Machine Learning
 
 Predicting a portfolio's one-day 95% Value-at-Risk (VaR) by directly estimating
-the 5th percentile of tomorrow's return with quantile regression — instead of
+the 5th percentile of tomorrow's return with quantile regression instead of
 assuming returns are normally distributed.
 
 > On a bad day, how much could a $1,000,000 stock portfolio realistically lose?
@@ -34,7 +34,7 @@ assuming returns are normally distributed.
 - **After feature engineering:** 2,885 daily observations x 13 features
   (lagged returns, rolling volatility at 5/20/60 days, 60-day drawdown,
   factor moves, portfolio dollar-volume change)
-- **Split:** chronological, no shuffling — 70% train / 15% validation / 15%
+- **Split:** chronological, no shuffling - 70% train / 15% validation / 15%
   test, so no future information leaks into training
 
 ## Methodology
@@ -43,11 +43,11 @@ Three models predict the conditional 5th percentile of next-day portfolio
 return, `q_0.05(R_{t+1} | X_t)`, which converts to a 95% VaR as
 `VaR = -q_0.05`:
 
-1. **Historical Quantile (baseline)** — fixed 5% quantile of training-period
+1. **Historical Quantile (baseline)**  fixed 5% quantile of training-period
    returns, same number every day
-2. **Linear Quantile Regression** — interpretable, minimizes pinball loss
+2. **Linear Quantile Regression**  interpretable, minimizes pinball loss
    directly
-3. **XGBoost Quantile Regression** — gradient-boosted trees tuned over 36
+3. **XGBoost Quantile Regression**  gradient-boosted trees tuned over 36
    hyperparameter combinations (grid search on the validation set)
 
 Evaluation uses pinball loss (the actual training objective), MAE, and VaR
@@ -66,7 +66,7 @@ Test set: 433 trading days, Dec 2024 – Sep 2026.
 | **XGBoost Quantile Regression**| **0.001401**| **0.0207**| **4.85%**    |
 
 XGBoost has the lowest error on both metrics, and its 4.85% breach rate is
-closest to the 5% target — meaning it isn't just more accurate on average, its
+closest to the 5% target, meaning it isn't just more accurate on average, its
 risk estimate is better calibrated. The most important feature is the
 60-day market drawdown: how far the market currently sits below its recent
 peak predicts tomorrow's tail risk better than any single day's move.
@@ -77,10 +77,6 @@ peak predicts tomorrow's tail risk better than any single day's move.
 ```bash
 jupyter notebook notebooks/analysis.ipynb
 ```
-
-Run all cells top to bottom. This downloads market data, engineers features,
-trains and compares all three models, and saves the trained XGBoost model to
-`models/ml_var_xgboost.pkl` — required before the API will start.
 
 ## Running the API
 
@@ -129,9 +125,6 @@ Example request to `/predict`:
 docker build -t var-ml-api .
 docker run -p 8000:8000 var-ml-api
 ```
-
-(Build the model first — the image copies `models/ml_var_xgboost.pkl` in at
-build time, so it must exist before running `docker build`.)
 
 ## Limitations & next steps
 
