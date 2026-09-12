@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+requests
+numpy
+pandas
+scikit-learn
+joblib
+scipy
+xgboost
+matplotlib
+yfinance
+seaborn
+statsmodels
