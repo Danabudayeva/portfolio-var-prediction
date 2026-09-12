@@ -88,9 +88,9 @@ trains and compares all three models, and saves the trained XGBoost model to
 uvicorn app:app --reload
 ```
 
-- Web UI: http://127.0.0.1:8000/app
-- Interactive API docs: http://127.0.0.1:8000/docs
-- Health check: http://127.0.0.1:8000/health
+- Web UI: http://13.53.212.35:8000/app
+- Interactive API docs: http://13.53.212.35:8000/docs
+- Health check: http://13.53.212.35:8000/health
 
 ## API reference
 
